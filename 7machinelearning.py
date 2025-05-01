@@ -40,20 +40,16 @@ from sklearn.exceptions import UndefinedMetricWarning
 # --- Specificity Scorer Function ---
 def specificity_score(y_true, y_pred, **kwargs): # Added **kwargs to handle potential extra args from scorers
     cm = confusion_matrix(y_true, y_pred, labels=[0, 1])
-    # Handle cases where confusion matrix might not be 2x2 (e.g., only one class predicted)
+   
     if cm.shape != (2, 2):
-        # Decide how to handle this - return NaN, 0, or try to infer TN
-        # Safest is often NaN or 0 if TN cannot be determined reliably
+
         return 0.0 # Or np.nan
     tn, fp, fn, tp = cm.ravel()
     if (tn + fp) == 0:
-        # Avoid division by zero; if no true negatives exist, specificity is debatable
-        # If fp is also 0, it implies perfect prediction for negatives (specificity=1)
-        # If fp is > 0, it implies misclassification of negatives (specificity=0)
         return 1.0 if fp == 0 else 0.0
     return tn / (tn + fp)
 
-# --- Make scorers for GridSearchCV ---
+
 # Balanced accuracy is often a good primary metric for potentially imbalanced data
 scoring = {
     'balanced_accuracy': make_scorer(balanced_accuracy_score),
@@ -67,11 +63,8 @@ scoring = {
 # Choose the main metric to optimize GridSearchCV ('refit')
 refit_metric = 'balanced_accuracy'
 
-# Suppress UndefinedMetricWarning (often happens with precision/f1 in edge cases during CV)
 warnings.filterwarnings("ignore", category=UndefinedMetricWarning)
-# Suppress specific convergence warnings if desired (e.g., from Logistic Regression)
-# from sklearn.exceptions import ConvergenceWarning
-# warnings.filterwarnings("ignore", category=ConvergenceWarning)
+
 
 
 # --- 1. Configuration ---
@@ -165,7 +158,7 @@ pipeline_steps = [
 ]
 
 # Define classifiers and their specific parameter grids
-# Note: Parameter names in grid MUST follow pipeline step names (e.g., 'clf__C')
+
 classifiers = {
     'LogisticRegression': {
         'estimator': LogisticRegression(random_state=random_state, class_weight='balanced', solver='liblinear', max_iter=1000),
@@ -379,16 +372,7 @@ try:
 except Exception as e:
     print(f"\nWarning: Could not save summary results CSV: {e}")
 
-# --- 7. Optional: Save Best Estimators ---
-# You might want to save the trained best_pipeline objects for later use
-# import joblib
-# for clf_name, estimator in best_estimators.items():
-#     model_path = os.path.join(results_output_dir, f'best_model_{clf_name}.joblib')
-#     try:
-#         joblib.dump(estimator, model_path)
-#         print(f"Saved best model for {clf_name} to {model_path}")
-#     except Exception as e:
-#         print(f"Could not save model for {clf_name}: {e}")
+
 
 total_end_time = time.time()
 print(f"\n--- ML Script (PCA + Multi-Classifier Tuning) Complete ---")

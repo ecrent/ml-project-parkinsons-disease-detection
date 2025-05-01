@@ -7,60 +7,7 @@ import pandas as pd
 from glob import glob
 import shutil
 import numpy as np # For NaN checks if needed
-
-# --- Block 1: FSL Environment Setup (Crucial for Codespaces/Jupyter) ---
-#region FSL Environment Setup
-print("--- Setting FSL Environment Variables for Python ---")
-
-# --- IMPORTANT: Verify this path matches your FSL installation ---
-fsl_dir = "/workspaces/codespaces-jupyter/fsl" # MODIFY IF YOUR FSL PATH IS DIFFERENT
-# -------------------------------------------------------------
-
-fsl_bin_path = os.path.join(fsl_dir, 'bin')
-
-# Check if FSLDIR is set and correct
-current_fsldir = os.environ.get('FSLDIR')
-if current_fsldir != fsl_dir:
-    print(f"Setting FSLDIR environment variable to: {fsl_dir}")
-    os.environ['FSLDIR'] = fsl_dir
-else:
-    print(f"FSLDIR already set correctly: {current_fsldir}")
-
-# Check if FSL bin directory is in PATH
-current_path = os.environ.get('PATH', '')
-if fsl_bin_path not in current_path.split(os.pathsep): # Check components properly
-    print(f"Adding FSL bin directory to PATH: {fsl_bin_path}")
-    # Prepend FSL path to existing PATH
-    os.environ['PATH'] = f"{fsl_bin_path}{os.pathsep}{current_path}"
-    # print("Updated PATH:", os.environ['PATH']) # Optional: print long path
-else:
-    print(f"FSL bin directory already found in PATH.")
-
-# Set FSLOUTPUTTYPE (often needed, ensures output is NIFTI_GZ)
-print("Setting FSLOUTPUTTYPE=NIFTI_GZ")
-os.environ['FSLOUTPUTTYPE'] = 'NIFTI_GZ'
-
-# --- Verification (Optional but Recommended) ---
-print("\n--- Verifying FSL command access from Python ---")
-try:
-    which_bet = subprocess.run(['which', 'bet'], capture_output=True, text=True, check=True, timeout=5)
-    print(f"Found 'bet' executable at: {which_bet.stdout.strip()}")
-except FileNotFoundError:
-    print("ERROR: 'which' command not found (should be available on Linux).")
-    sys.exit("Cannot verify FSL path.")
-except subprocess.TimeoutExpired:
-    print("ERROR: 'which bet' command timed out.")
-    sys.exit("Cannot verify FSL path.")
-except subprocess.CalledProcessError:
-    print("ERROR: 'bet' command not found using 'which'. Check FSL installation and PATH setup.")
-    sys.exit("FSL 'bet' command not accessible.")
-except Exception as e:
-    print(f"An unexpected error occurred during verification: {e}")
-    sys.exit("Cannot verify FSL setup.")
-
-print("-" * 50)
-#endregion FSL Environment Setup
-
+# --- 1. Check for FSL ---
 
 # --- Block 2: Script Configuration ---
 #region Configuration

@@ -1,5 +1,3 @@
-
-
 # --- Registration to MNI Standard Space Script (using FSL FLIRT/FNIRT) ---
 
 import pandas as pd

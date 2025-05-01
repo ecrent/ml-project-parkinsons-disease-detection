@@ -1,11 +1,11 @@
-# --- DICOM Conversion Script (Simplified - Only dcm2niix) ---
+# --- DICOM Conversion Script  ---
 
 import pandas as pd
 import os
 import subprocess
 from glob import glob
-import shutil # Keep for potential cleanup later if needed
-import nibabel as nib # Keep for potential QC later if needed
+import shutil
+import nibabel as nib 
 
 
 # --- 1. Configuration ---

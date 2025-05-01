@@ -313,10 +313,6 @@ except Exception as save_e:
     print(f"ERROR saving features CSV: {save_e}")
 
 
-# --- 7. Cleanup Nilearn Cache (Optional) ---
-# from nilearn.maskers import clean_maskers
-# print("\n--- Cleaning Nilearn Masker Cache ---")
-# clean_maskers(memory='nilearn_cache') # Clean up cache if needed
 
 
 end_loop_time = time.time()
