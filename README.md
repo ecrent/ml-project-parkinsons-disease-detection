@@ -6,6 +6,10 @@ This project implements a pipeline to preprocess T1-weighted (T1w) structural MR
 
 The methodology focuses on using a standard FSL-based preprocessing workflow combined with atlas-based Region of Interest (ROI) feature extraction and common Scikit-learn classifiers, aiming for a balance between standard neuroimaging practices and accessibility.
 
+## The Document About the Work
+
+https://drive.google.com/file/d/1oQZFdAULN1mxFtKilDpvEb3mYV7-Y8BX/view?usp=sharing
+
 ## Prerequisites
 
 ### System Dependencies:
